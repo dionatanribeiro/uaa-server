@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: auth-server
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+
+server:
+  port: 9999
+
+eureka:
+  client:
+    region: default
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+logging.level.org.springframework.security: DEBUG
+
+logging.leve.org.springframework: DEBUG
+
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+
+signing:
+  key: ipg3d4at5bW1zJ4i0UW8X8W59d51EiOE5Sa8X8o4ZKCCp0MU88KfalEEDfQfZHb
