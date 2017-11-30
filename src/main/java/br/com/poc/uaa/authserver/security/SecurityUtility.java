@@ -9,7 +9,7 @@ import java.security.SecureRandom;
 @Component
 public class SecurityUtility {
 
-    private static final String SALT = "salt";
+    private static final String SALT = "qXRMxsLj8NHZt1jz98WFsHxECmIrjRprziZnEnNmblNTBQ8JSEN42oZUe8RoZzo";
 
     @Bean
     public static BCryptPasswordEncoder passwordEncoder() {

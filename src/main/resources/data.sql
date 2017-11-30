@@ -1,8 +1,8 @@
 INSERT INTO Usuario (Id, primeiro_Nome, ultimo_Nome, email, dt_Cadastro, username, password)
-VALUES (1, 'Dionatan', 'Ribeiro', 'dionatan@gmail.com', sysdate, 'dionatangr', '$2a$10$NapJsrmg73ZjuxoMXO6UMOzTfvjXkNP7clpRbjNtu9mEzJmn.qmv.');
+VALUES (1, 'Dionatan', 'Ribeiro', 'dionatan@gmail.com', sysdate, 'dionatangr', '$2a$12$wqt9dOKgklmUmBirY0iiaOEwU090r.eD60MCBeVICn15FO8RkC376');
 
 INSERT INTO Usuario (Id, primeiro_Nome, ultimo_Nome, email, dt_Cadastro, username, password)
-VALUES (2, 'Carlos', 'Nonnematcher', 'losfueras@gmail.com', sysdate, 'carlos', '$2a$10$NapJsrmg73ZjuxoMXO6UMOzTfvjXkNP7clpRbjNtu9mEzJmn.qmv.');
+VALUES (2, 'Carlos', 'Nonnematcher', 'losfueras@gmail.com', sysdate, 'carlos', '$2a$12$wqt9dOKgklmUmBirY0iiaOEwU090r.eD60MCBeVICn15FO8RkC376');
 
 INSERT INTO Role (Id, name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO Role (Id, name) VALUES (2, 'ROLE_USER');
