@@ -1,6 +1,9 @@
 package br.com.poc.uaa.authserver.controller;
 
+import br.com.poc.uaa.authserver.model.Usuario;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +32,17 @@ public class UserController {
         userInfo.put("authorities", AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
 
         return userInfo;
+    }
+
+    @GetMapping("/api/profile")
+    public ResponseEntity<Usuario> profile() {
+        String username = (String )SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        Usuario usuario = new Usuario();
+        usuario.setUsername(username);
+
+        return ResponseEntity.ok(usuario);
     }
 
 }
