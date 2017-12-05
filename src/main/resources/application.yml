@@ -28,3 +28,5 @@ security:
 
 signing:
   key: ipg3d4at5bW1zJ4i0UW8X8W59d51EiOE5Sa8X8o4ZKCCp0MU88KfalEEDfQfZHb
+
+endpoints.default.web.enabled: true

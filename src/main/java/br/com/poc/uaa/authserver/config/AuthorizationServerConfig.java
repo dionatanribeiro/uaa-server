@@ -1,6 +1,7 @@
 package br.com.poc.uaa.authserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,8 +10,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
@@ -19,11 +23,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     /**
      * Tempo de expiração do token em segundos
      */
-    private static final int TOKEN_VALIDITY_SECONDS = 30;
+    private static final int TOKEN_VALIDITY_SECONDS = 180;
+    private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 360;
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Qualifier("userSecurityService")
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -33,19 +39,30 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
+    @Autowired
+    private JwtTokenEnhancer jwtTokenEnhancer;
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        enhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer, jwtAccessTokenConverter));
+
         endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 .tokenStore(tokenStore)
-                .accessTokenConverter(jwtAccessTokenConverter);
+                .accessTokenConverter(jwtAccessTokenConverter)
+                .tokenEnhancer(enhancerChain);
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
+
+                // libera acesso ao request /oauth/token para retornar o token
                 .tokenKeyAccess("permitAll()")
+
+                // exige que o token seja enviado para o endpoint de /user
                 .checkTokenAccess("isAuthenticated()");
     }
 
@@ -58,8 +75,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("webapp")
                 .secret("{noop}password")
                 .scopes("webclient")
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .accessTokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token");
+                .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
+        ;
     }
 
 }
