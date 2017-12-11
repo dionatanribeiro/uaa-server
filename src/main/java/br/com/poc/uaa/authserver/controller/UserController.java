@@ -34,7 +34,7 @@ public class UserController {
         return userInfo;
     }
 
-    @PreAuthorize(value = "#oauth2.hasScope('read')")
+    @PreAuthorize(value = "#oauth2.hasScope('read') and hasRole('ADMIN')")
     @GetMapping("/api/profile")
     public ResponseEntity<Usuario> profile() {
         Usuario usuario = (Usuario)SecurityContextHolder
