@@ -28,4 +28,5 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         .and()
             .httpBasic();
     }
+
 }

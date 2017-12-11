@@ -2,13 +2,13 @@ package br.com.poc.uaa.authserver.controller;
 
 import br.com.poc.uaa.authserver.model.Usuario;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,13 +34,11 @@ public class UserController {
         return userInfo;
     }
 
+    @PreAuthorize(value = "#oauth2.hasScope('read')")
     @GetMapping("/api/profile")
     public ResponseEntity<Usuario> profile() {
-        String username = (String )SecurityContextHolder
+        Usuario usuario = (Usuario)SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();
-
-        Usuario usuario = new Usuario();
-        usuario.setUsername(username);
 
         return ResponseEntity.ok(usuario);
     }
