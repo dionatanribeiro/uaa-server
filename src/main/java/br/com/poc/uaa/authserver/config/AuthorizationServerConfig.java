@@ -23,7 +23,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     /**
      * Tempo de expiração do token em segundos
      */
-    private static final int TOKEN_VALIDITY_SECONDS = 180;
+    private static final int TOKEN_VALIDITY_SECONDS = 360;
     private static final int REFRESH_TOKEN_VALIDITY_SECONDS = 360;
 
     @Autowired
@@ -49,6 +49,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         endpoints
                 .authenticationManager(authenticationManager)
+                // habilita userDetails para buscar usuario client do authorization server no banco de dados
                 .userDetailsService(userDetailsService)
                 .tokenStore(tokenStore)
                 .accessTokenConverter(jwtAccessTokenConverter)
@@ -58,7 +59,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
-
                 // libera acesso ao request /oauth/token para retornar o token
                 .tokenKeyAccess("permitAll()")
 
@@ -74,10 +74,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.inMemory()
                 .withClient("webapp")
                 .secret("{noop}password")
-                .scopes("webclient")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+                .scopes("read")
+                .authorizedGrantTypes("password", "refresh_token")
                 .accessTokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
-                .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
+//                .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
+//                .resourceIds("marketplace-estoque", "marketplace-gateway")
         ;
     }
 
