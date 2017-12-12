@@ -1,11 +1,26 @@
 spring:
   application:
     name: auth-server
+  ds-authserver:
+    url: jdbc:mysql://localhost:3306/authserver
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.jdbc.Driver
+  ds-oauth:
+    url: jdbc:mysql://localhost:3306/authserver_oauth
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
-    show-sql: true
-  h2:
-    console:
-      enabled: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: true
+        hbm2ddl:
+          auto: validate
+#  h2:
+#    console:
+#      enabled: true
 
 server:
   port: 9999

@@ -3,11 +3,12 @@ package br.com.poc.uaa.authserver.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Data
-public class Role {
+public class Role implements Serializable {
 
     @Id
     private Long id;

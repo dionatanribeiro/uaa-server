@@ -2,7 +2,9 @@ package br.com.poc.uaa.authserver.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public class Authority implements GrantedAuthority {
+import java.io.Serializable;
+
+public class Authority implements GrantedAuthority, Serializable {
 
     private final String authority;
 
