@@ -13,6 +13,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
+
         http
             .csrf().disable()
             .exceptionHandling()
@@ -20,7 +22,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         // Libera acesso ao actuator
         .and()
-            .authorizeRequests().antMatchers("/application/**").permitAll()
+            .authorizeRequests().antMatchers("/application/**", "/h2-console/**").permitAll()
 
         .and()
             .authorizeRequests()
