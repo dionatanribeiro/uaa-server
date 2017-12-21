@@ -14,13 +14,13 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+#        dialect: org.hibernate.dialect.MySQL5Dialect
         show_sql: true
-        hbm2ddl:
-          auto: validate
-#  h2:
-#    console:
-#      enabled: true
+#        hbm2ddl:
+#          auto: validate
+  h2:
+    console:
+      enabled: true
 
 server:
   port: 9999
@@ -32,9 +32,11 @@ server:
 #    serviceUrl:
 #      defaultZone: http://localhost:8761/eureka/
 
-logging.level.org.springframework.security: DEBUG
 
-logging.leve.org.springframework: DEBUG
+logging.level:
+  org.springframework: WARN
+  org.springframework.web: DEBUG
+  org.springframework.security: DEBUG
 
 security:
   oauth2:

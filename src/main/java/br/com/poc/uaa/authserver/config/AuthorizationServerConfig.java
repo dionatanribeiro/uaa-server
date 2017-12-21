@@ -34,13 +34,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("web-app")
                 .secret("{noop}password")
                 .authorizedGrantTypes("password", "refresh_token")
-                .scopes("read", "write")
+                .scopes("ui", "write")
                 .accessTokenValiditySeconds(120)
         .and()
                 .withClient("write")
                 .secret("{noop}password")
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("write")
+                .authorizedGrantTypes("client_credentials")
+                .scopes("api")
+                .authorizedGrantTypes("ROLE_ADMIN")
                 .accessTokenValiditySeconds(120)
                 ;
     }

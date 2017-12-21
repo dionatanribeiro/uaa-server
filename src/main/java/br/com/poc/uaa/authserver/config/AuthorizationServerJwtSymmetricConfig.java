@@ -16,9 +16,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import java.util.Arrays;
 
-//@Configuration
-//@EnableAuthorizationServer
-public class AuthorizationServerJwtConfig extends AuthorizationServerConfigurerAdapter {
+@Configuration
+@EnableAuthorizationServer
+public class AuthorizationServerJwtSymmetricConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
      * Tempo de expiração do token em segundos
@@ -61,9 +61,9 @@ public class AuthorizationServerJwtConfig extends AuthorizationServerConfigurerA
         security
                 // libera acesso ao request /oauth/token para retornar o token
                 .tokenKeyAccess("permitAll()")
-
                 // exige que o token seja enviado para o endpoint de /user
-                .checkTokenAccess("isAuthenticated()");
+                .checkTokenAccess("isAuthenticated()")
+        ;
     }
 
     /**
@@ -74,16 +74,16 @@ public class AuthorizationServerJwtConfig extends AuthorizationServerConfigurerA
         clients.inMemory()
                 .withClient("webapp")
                 .secret("{noop}password")
-                .scopes("read")
+                .scopes("write")
                 .authorizedGrantTypes("password", "refresh_token")
                 .accessTokenValiditySeconds(TOKEN_VALIDITY_SECONDS)
 //                .refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS)
 //                .resourceIds("marketplace-estoque", "marketplace-gateway")
             .and()
-                .withClient("write")
+                .withClient("api")
                 .secret("{noop}password")
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("write")
+                .authorizedGrantTypes("client_credentials")
+                .scopes("read")
                 .accessTokenValiditySeconds(120)
         ;
         ;

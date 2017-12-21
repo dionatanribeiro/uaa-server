@@ -22,8 +22,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         // Libera acesso ao actuator
         .and()
-            .authorizeRequests().antMatchers("/application/**", "/h2-console/**").permitAll()
-
+            .authorizeRequests().antMatchers("/application/**", "/h2-console**").permitAll()
         .and()
             .authorizeRequests()
             .anyRequest().authenticated()

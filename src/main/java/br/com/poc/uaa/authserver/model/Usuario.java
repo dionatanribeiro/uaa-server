@@ -22,14 +22,8 @@ public class Usuario implements UserDetails, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String primeiroNome;
-
-    private String ultimoNome;
-
-    private String email;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date dtCadastro;
+    @Embedded
+    private UsuarioInfo usuarioInfo;
 
     private String username;
 
